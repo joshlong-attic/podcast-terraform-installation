@@ -1,6 +1,6 @@
 region = "us-east-1"
 ami = {
-  us-east-1 = "ami-f652979b"
-  us-west-1 = "ami-7c4b331c"
+  us-east-1 = "ami-0273df992a343e0d6"
+  us-west-1 = "ami-045ea583d8678e780"
 }
 

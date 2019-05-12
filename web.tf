@@ -40,7 +40,7 @@ resource "aws_instance" "web" {
   key_name                    = "${var.key_name}"
   subnet_id                   = "${module.vpc.public_subnet_id}"
   private_ip                  = "${var.instance_ips[count.index]}"
-  user_data                   = "${file("files/web_bootstrap.sh")}"
+  #user_data                   = "${file("files/web_bootstrap.sh")}"
   associate_public_ip_address = true
 
   vpc_security_group_ids = [
@@ -52,11 +52,43 @@ resource "aws_instance" "web" {
   }
 
   count = "${length(var.instance_ips)}"
+
+  provisioner "file" {
+    source      = "files/bootstrap.sh"
+    destination = "$HOME/bootstrap.sh"
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = "${file(var.aws_pem)}"
+    }
+  }
+
+
+  provisioner "file" {
+    source      = "tmp/env.sh"
+    destination = "$HOME/env.sh"
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = "${file(var.aws_pem)}"
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod a+x $HOME/*sh",
+      "./bootstrap.sh"
+    ]
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = "${file(var.aws_pem)}"
+    }
+  }
 }
 
 resource "aws_elb" "web" {
   name = "web-elb"
-
   subnets         = ["${module.vpc.public_subnet_id}"]
   security_groups = ["${aws_security_group.web_inbound_sg.id}"]
 
@@ -82,6 +114,7 @@ resource "aws_security_group" "web_inbound_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+ 
 
   ingress {
     from_port   = 8
@@ -117,6 +150,8 @@ resource "aws_security_group" "web_host_sg" {
     protocol    = "tcp"
     cidr_blocks = ["${module.vpc.cidr}"]
   }
+ 
+
 
   egress {
     from_port   = 0

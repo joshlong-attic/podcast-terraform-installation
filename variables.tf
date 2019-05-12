@@ -7,6 +7,11 @@ variable "key_name" {
   default     = "podcast"
 }
 
+variable "aws_pem" {
+  description = "The path to the .pem file to authenticate over SSH with the cloud host"
+}
+
+
 variable "ami" {
   type        = "map"
   description = "A map of AMIs"
@@ -20,5 +25,7 @@ variable "instance_type" {
 
 variable "instance_ips" {
   description = "The IPs to use for our instances"
-  default     = ["10.0.1.20", "10.0.1.21"]
+  default     = ["10.0.1.20" ]
+#  default     = ["10.0.1.20", "10.0.1.21"]
+
 }
