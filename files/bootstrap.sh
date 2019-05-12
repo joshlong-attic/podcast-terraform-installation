@@ -26,8 +26,6 @@ cd $PROCESSOR_DIR
 source $HOME/env.sh
 python3 -m pipenv install
 python3 -m pipenv run python ${PROCESSOR_DIR}/config_aws.py $HOME/.aws/
-# python3 -m pipenv run python main.py
-
  
 cd service
 SVC_DIR=$(pwd)
@@ -37,6 +35,4 @@ SVC_INIT=${PROCESSOR_DIR}/service/processor-service.sh
 cat $HOME/env.sh >> ${SVC_ENV}
 
 
-${SVC_DIR}/install.sh 
-
-# sudo cp ${SVC_DIR}/supervisor.conf /etc/supervisor/supervisord.conf
+${SVC_DIR}/install.sh
