@@ -14,5 +14,5 @@ echo "export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" >>  $e
 echo "export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" >>  $e 
 
 
-terraform destroy -input=false -auto-approve 
+# terraform destroy -input=false -auto-approve 
 terraform apply -input=false -auto-approve 
