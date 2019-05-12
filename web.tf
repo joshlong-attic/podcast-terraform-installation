@@ -23,6 +23,7 @@ provider "aws" {
   #access_key = "${var.aws_access_key}" 
   #secret_key = "${var.aws_secret_key}" 
   region = "us-east-1"
+  version = "~> 2.10"
 }
 
 
@@ -91,6 +92,14 @@ resource "aws_elb" "web" {
   name = "web-elb"
   subnets         = ["${module.vpc.public_subnet_id}"]
   security_groups = ["${aws_security_group.web_inbound_sg.id}"]
+
+ health_check {
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 3
+    target              = "HTTP:80/health"
+    interval            = 15
+  }
 
   listener {
     instance_port     = 80
