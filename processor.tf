@@ -1,3 +1,39 @@
+#### VARIABLES 
+variable "region" {
+  description = "The AWS region."
+}
+
+variable "key_name" {
+  description = "The AWS key pair to use for resources."
+  default     = "podcast"
+}
+
+variable "aws_pem" {
+  description = "The path to the .pem file to authenticate over SSH with the cloud host"
+}
+
+
+variable "ami" {
+  type        = "map"
+  description = "A map of AMIs"
+  default     = {}
+}
+
+variable "instance_type" {
+  description = "The instance type to launch."
+  #default     = "t2.micro"
+  default = "r4.large"
+}
+
+variable "instance_ips" {
+  description = "The IPs to use for our instances"
+  default     = ["10.0.1.20" ]
+#  default     = ["10.0.1.20", "10.0.1.21"]
+
+}
+
+#### BUSINESS LOGIC
+
 data "aws_iam_policy_document" "example" {
   statement {
     actions   = ["*"]
@@ -176,3 +212,17 @@ resource "aws_security_group" "web_host_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+#### OUTPUT VARIABLES 
+output "elb_address" {
+  value = "${aws_elb.web.dns_name}"
+}
+
+output "addresses" {
+  value = "${aws_instance.web.*.public_ip}"
+}
+
+output "public_subnet_id" {
+  value = "${module.vpc.public_subnet_id}"
+}
+
