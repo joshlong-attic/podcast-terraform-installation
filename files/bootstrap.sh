@@ -27,8 +27,8 @@ source $HOME/env.sh
 python3 -m pipenv install
 python3 -m pipenv run python ${PROCESSOR_DIR}/config_aws.py $HOME/.aws/
  
-cd service
-SVC_DIR=$(pwd)
+
+SVC_DIR=${PROCESSOR_DIR}/service
 SVC_ENV=${PROCESSOR_DIR}/service/processor-environment.sh
 SVC_INIT=${PROCESSOR_DIR}/service/processor-service.sh
 
