@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#### This script is copied to the newly minted EC2 instance and used to install everything else
+#### Ideally, this would be Puppet or Chef instead for anything even mildly more complicated.
+
 ### DANGER
 ### this will remove ALL firewall rules: 
 sudo iptables -P INPUT ACCEPT

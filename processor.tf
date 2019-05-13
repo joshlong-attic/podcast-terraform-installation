@@ -1,3 +1,14 @@
+
+#### STATE MANAGEMENT 
+
+terraform {
+  backend "s3" {
+    bucket = "podcast-terraform-state"
+    key    = "terraform.tfstate"
+    region = "us-east-1"
+  }
+}
+
 #### VARIABLES 
 variable "region" {
   description = "The AWS region."
